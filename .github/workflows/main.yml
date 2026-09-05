@@ -31,12 +31,19 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
         with:
-          languages: javascript
+          languages: java
 
-      # Step 3 - Autobuild Project
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+      # Step 3 - Setup Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-      # Step 4 - Analyze Code
+      # Step 4 - Build Project
+      - name: Build Project
+        run: mvn clean package -DskipTests
+
+      # Step 5 - Analyze Code
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
