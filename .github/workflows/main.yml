@@ -1,0 +1,42 @@
+name: CodeQL Security Scan
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+  pull_request:
+    branches:
+      - main
+      - master
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  codeql_scan:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1 - Checkout Repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2 - Initialize CodeQL
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      # Step 3 - Autobuild Project
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      # Step 4 - Analyze Code
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
